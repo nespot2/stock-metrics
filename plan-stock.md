@@ -23,9 +23,9 @@
 ### 1.3 create a controller in adapter layer and write a test code in bootstrap layer
 
 - [x] Test: should return 201 Created on successful stock registration. response is a StockResponse
-- [ ] Test: should return 400 Bad Request on invalid ticker format
+- [x] Test: should return 400 Bad Request on invalid ticker format
 
 ### 1.4 create a spring restdoc for api documentation in bootstrap layer
 
-- [ ] Test: create a spring restdoc for stock registration api
+- [ ] Test: create a test code for spring restdoc for stock registration endpoint
 - [ ] Test: write a asciidoc for stock registration endpoint
