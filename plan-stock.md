@@ -27,5 +27,5 @@
 
 ### 1.4 create a spring restdoc for api documentation in bootstrap layer
 
-- [ ] Test: create a test code for spring restdoc for stock registration endpoint
-- [ ] Test: write a asciidoc for stock registration endpoint
+- [x] Test: create a test code for spring restdoc for stock registration endpoint
+- [x] Test: write a asciidoc for stock registration endpoint

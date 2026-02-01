@@ -1,0 +1,42 @@
+= Stock Metrics API Documentation
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[overview]]
+== Overview
+
+Stock Metrics API는 주식 정보를 관리하고 주요 밸류에이션 지표를 조회하는 서비스입니다.
+
+[[stock-api]]
+== Stock API
+
+[[stock-registration]]
+=== 주식 등록
+
+새로운 주식을 등록합니다.
+
+==== HTTP Request
+
+include::{snippets}/stock-registration/http-request.adoc[]
+
+==== Request Fields
+
+include::{snippets}/stock-registration/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/stock-registration/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/stock-registration/response-fields.adoc[]
+
+==== Example
+
+===== cURL
+
+include::{snippets}/stock-registration/curl-request.adoc[]
