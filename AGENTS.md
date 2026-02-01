@@ -10,6 +10,8 @@ Users can search by company name or stock code (ticker) to retrieve essential fi
   - bootstrap
   - adapter
   - application
+    - required
+    - provided
   - domain
 - Each module has a well-defined responsibility and a strict dependency direction.
 
@@ -47,6 +49,15 @@ Users can search by company name or stock code (ticker) to retrieve essential fi
 - Transaction boundaries
 - Coordination of domain logic
 - Definition of ports (interfaces) used by adapters
+
+#### Provided & Required Interfaces
+- The application module defines explicit boundaries for communication with other modules through two types of interfaces:
+  - Provided interfaces
+  - Required interfaces
+- Provided Interfaces
+  - Provided interfaces expose application services (use cases) to outer layers.
+- Required Interfaces
+  - Required interfaces define services that the application module needs but does not implement itself.
 
 ### domain
 

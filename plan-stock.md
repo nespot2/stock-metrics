@@ -13,3 +13,8 @@
 - [x] Test: Should create a Stock with ticker, name and exchange using request class
   - exchange (code: NASDAQ | NYSE | NYSE_AMERICAN)
 - [x] Test: Should reject ticker is not following format like '^[A-Z]{1,5}(\.[A-Z])?$'
+
+### 1.2 register a stock in application layer
+
+- [ ] Test: reject invalid ticker format
+- [ ] Test: register a stock
