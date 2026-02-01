@@ -1,6 +1,6 @@
 package com.stockmetrics.adapter.persistence.stock;
 
-import com.stockmetrics.application.stock.StockRepository;
+import com.stockmetrics.application.required.stock.StockRepository;
 import com.stockmetrics.domain.stock.Stock;
 import org.springframework.stereotype.Repository;
 

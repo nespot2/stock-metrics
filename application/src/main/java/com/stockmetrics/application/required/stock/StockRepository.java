@@ -1,4 +1,4 @@
-package com.stockmetrics.application.stock;
+package com.stockmetrics.application.required.stock;
 
 import com.stockmetrics.domain.stock.Stock;
 

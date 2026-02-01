@@ -4,6 +4,7 @@ rootProject.name = "stock-metrics"
 include(
     "bootstrap:api",
     "adapter:persistence",
+    "adapter:web",
     "application",
     "domain"
 )
