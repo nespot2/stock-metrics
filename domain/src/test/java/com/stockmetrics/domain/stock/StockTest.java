@@ -37,4 +37,19 @@ class StockTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("ticker");
     }
+
+    @Test
+    @DisplayName("Should modify a name in Stock entity")
+    void shouldModifyName() {
+        // given
+        Stock stock = StockFixture.createStock();
+        String newName = "Apple Inc. Updated";
+
+        // when
+        stock.modifyName(newName);
+
+        // then
+        assertThat(stock.getName()).isEqualTo(newName);
+    }
+
 }

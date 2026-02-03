@@ -28,4 +28,27 @@
 ### 1.4 create a spring restdoc for api documentation in bootstrap layer
 
 - [x] Test: create a test code for spring restdoc for stock registration endpoint
-- [x] Test: write a asciidoc for stock registration endpoint
+- [x] Test: write an asciidoc for stock registration endpoint
+
+
+## Feature 2: Stock Modification(주식 수정)
+
+### 2.1 modify name in domain layer
+
+- [x] Test: modify a name in Stock entity (You should use StockFixture to create a stock)
+
+### 2.2 modify name in application layer
+
+- [x] Test: modify a name using service (You don't use StockFixture)
+- [x] Test: reject if stock does not exist
+
+### 2.3 modify name in controller in adapter layer
+
+- [x] Test: should return 200 OK on successful stock name update
+- [x] Test: should return 404 Not Found if stock does not exist
+
+### 2.4 create a spring restdoc for api documentation in bootstrap layer
+
+- [x] Test: create a test code for spring restdoc for stock modification endpoint
+- [x] Test: write an asciidoc for stock modification endpoint
+

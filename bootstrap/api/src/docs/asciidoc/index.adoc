@@ -40,3 +40,34 @@ include::{snippets}/stock-registration/response-fields.adoc[]
 ===== cURL
 
 include::{snippets}/stock-registration/curl-request.adoc[]
+
+[[stock-modification]]
+=== 주식 수정
+
+등록된 주식의 정보를 수정합니다. (현재는 이름 수정만 지원합니다.)
+
+==== HTTP Request
+
+include::{snippets}/stock-modification/http-request.adoc[]
+
+==== Path Parameters
+
+include::{snippets}/stock-modification/path-parameters.adoc[]
+
+==== Request Fields
+
+include::{snippets}/stock-modification/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/stock-modification/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/stock-modification/response-fields.adoc[]
+
+==== Example
+
+===== cURL
+
+include::{snippets}/stock-modification/curl-request.adoc[]

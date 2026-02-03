@@ -2,8 +2,10 @@ package com.stockmetrics.bootstrap.api.stock.docs;
 
 import com.stockmetrics.adapter.web.exception.GlobalExceptionHandler;
 import com.stockmetrics.adapter.web.stock.StockController;
+import com.stockmetrics.application.provided.stock.StockModificationUseCase;
 import com.stockmetrics.application.provided.stock.StockRegistrationUseCase;
 import com.stockmetrics.application.stock.RegisterStockCommand;
+import com.stockmetrics.application.stock.UpdateStockNameCommand;
 import com.stockmetrics.domain.stock.CreateStockRequest;
 import com.stockmetrics.domain.stock.Exchange;
 import com.stockmetrics.domain.stock.Stock;
@@ -25,7 +27,10 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +44,9 @@ class StockApiDocumentationTest {
 
     @MockitoBean
     private StockRegistrationUseCase stockRegistrationUseCase;
+
+    @MockitoBean
+    private StockModificationUseCase stockModificationUseCase;
 
     @Test
     void documentStockRegistration() throws Exception {
@@ -70,6 +78,41 @@ class StockApiDocumentationTest {
                         responseFields(
                                 fieldWithPath("ticker").description("주식 티커 심볼").attributes(key("required").value("Yes")),
                                 fieldWithPath("name").description("회사명").attributes(key("required").value("Yes")),
+                                fieldWithPath("exchange").description("거래소").attributes(key("required").value("Yes"))
+                        )
+                ));
+    }
+
+    @Test
+    void documentStockModification() throws Exception {
+        // given
+        String ticker = "AAPL";
+        String requestBody = """
+                {
+                    "name": "Apple Inc. Updated"
+                }
+                """;
+
+        given(stockModificationUseCase.updateName(any(UpdateStockNameCommand.class)))
+                .willReturn(Stock.create(new CreateStockRequest(ticker, "Apple Inc. Updated", Exchange.NASDAQ)));
+
+        // when & then
+        mockMvc.perform(patch("/api/stocks/{ticker}", ticker)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andDo(document("stock-modification",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("ticker").description("수정할 주식의 티커 심볼")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("수정할 회사명").attributes(key("required").value("Yes"))
+                        ),
+                        responseFields(
+                                fieldWithPath("ticker").description("주식 티커 심볼").attributes(key("required").value("Yes")),
+                                fieldWithPath("name").description("수정된 회사명").attributes(key("required").value("Yes")),
                                 fieldWithPath("exchange").description("거래소").attributes(key("required").value("Yes"))
                         )
                 ));

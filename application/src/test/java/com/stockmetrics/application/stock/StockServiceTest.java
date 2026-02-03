@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,7 +72,7 @@ class StockServiceTest {
         String name = "Apple Inc.";
         Exchange exchange = Exchange.NASDAQ;
         RegisterStockCommand command = new RegisterStockCommand(ticker, name, exchange);
-        
+
         given(stockRepository.findByTicker(ticker)).willReturn(Optional.empty());
         given(stockRepository.save(any(Stock.class))).willAnswer(invocation -> invocation.getArgument(0));
 
@@ -83,5 +84,44 @@ class StockServiceTest {
         assertThat(result.getName()).isEqualTo(name);
         assertThat(result.getExchange()).isEqualTo(exchange);
         verify(stockRepository).save(any(Stock.class));
+    }
+
+    @Test
+    @DisplayName("Should modify stock name using service")
+    void shouldModifyStockName() {
+        // given
+        String ticker = "AAPL";
+        String originalName = "Apple Inc.";
+        String newName = "Apple Corporation";
+        Exchange exchange = Exchange.NASDAQ;
+
+        Stock existingStock = Stock.create(new com.stockmetrics.domain.stock.CreateStockRequest(ticker, originalName, exchange));
+        given(stockRepository.findByTicker(ticker)).willReturn(Optional.of(existingStock));
+
+        UpdateStockNameCommand command = new UpdateStockNameCommand(ticker, newName);
+
+        // when
+        Stock result = stockService.updateName(command);
+
+        // then
+        assertThat(result.getName()).isEqualTo(newName);
+        assertThat(result.getTicker()).isEqualTo(ticker);
+    }
+
+    @Test
+    @DisplayName("Should reject update if stock does not exist")
+    void shouldRejectUpdateIfStockDoesNotExist() {
+        // given
+        String ticker = "AAPL";
+        String newName = "Apple Corporation";
+
+        given(stockRepository.findByTicker(ticker)).willReturn(Optional.empty());
+
+        UpdateStockNameCommand command = new UpdateStockNameCommand(ticker, newName);
+
+        // when & then
+        assertThatThrownBy(() -> stockService.updateName(command))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("not found");
     }
 }

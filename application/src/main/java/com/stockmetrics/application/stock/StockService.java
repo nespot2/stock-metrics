@@ -1,9 +1,11 @@
 package com.stockmetrics.application.stock;
 
+import com.stockmetrics.application.provided.stock.StockModificationUseCase;
 import com.stockmetrics.application.provided.stock.StockRegistrationUseCase;
 import com.stockmetrics.application.required.stock.StockRepository;
 import com.stockmetrics.domain.stock.CreateStockRequest;
 import com.stockmetrics.domain.stock.Stock;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StockService implements StockRegistrationUseCase {
+public class StockService implements StockRegistrationUseCase, StockModificationUseCase {
 
     private final StockRepository stockRepository;
 
@@ -29,5 +31,13 @@ public class StockService implements StockRegistrationUseCase {
         }
         
         return stockRepository.save(stock);
+    }
+
+    @Override
+    public Stock updateName(UpdateStockNameCommand command) {
+        Stock stock = stockRepository.findByTicker(command.ticker())
+                .orElseThrow(() -> new NoSuchElementException("Stock with ticker " + command.ticker() + " not found"));
+        stock.modifyName(command.newName());
+        return stock;
     }
 }

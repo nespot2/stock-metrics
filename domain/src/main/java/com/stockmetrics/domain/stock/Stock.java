@@ -44,4 +44,9 @@ public class Stock extends AbstractEntity {
             throw new IllegalArgumentException("Invalid ticker format: ticker must match ^[A-Z]{1,5}(\\.[A-Z])?$");
         }
     }
+
+    public void modifyName(String name) {
+        this.name = name;
+    }
+
 }
