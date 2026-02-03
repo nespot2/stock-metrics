@@ -2,8 +2,10 @@ package com.stockmetrics.bootstrap.api.stock;
 
 import com.stockmetrics.adapter.web.exception.GlobalExceptionHandler;
 import com.stockmetrics.adapter.web.stock.StockController;
+import com.stockmetrics.application.provided.stock.StockDeletionUseCase;
 import com.stockmetrics.application.provided.stock.StockModificationUseCase;
 import com.stockmetrics.application.provided.stock.StockRegistrationUseCase;
+import com.stockmetrics.application.stock.DeleteStockCommand;
 import com.stockmetrics.application.stock.RegisterStockCommand;
 import com.stockmetrics.application.stock.UpdateStockNameCommand;
 import com.stockmetrics.domain.stock.CreateStockRequest;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,6 +41,9 @@ class StockControllerTest {
 
     @MockitoBean
     private StockModificationUseCase stockModificationUseCase;
+
+    @MockitoBean
+    private StockDeletionUseCase stockDeletionUseCase;
 
     @Test
     void shouldReturn201CreatedOnSuccessfulStockRegistration() throws Exception {
@@ -125,6 +131,30 @@ class StockControllerTest {
         mockMvc.perform(patch("/api/stocks/{ticker}", ticker)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Stock with ticker " + ticker + " not found"));
+    }
+
+    @Test
+    void shouldReturn200OkOnSuccessfulStockDeletion() throws Exception {
+        // given
+        String ticker = "AAPL";
+
+        // when & then
+        mockMvc.perform(delete("/api/stocks/{ticker}", ticker))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturn404NotFoundIfStockToDeleteDoesNotExist() throws Exception {
+        // given
+        String ticker = "UNKNOWN";
+
+        willThrow(new NoSuchElementException("Stock with ticker " + ticker + " not found"))
+                .given(stockDeletionUseCase).delete(any(DeleteStockCommand.class));
+
+        // when & then
+        mockMvc.perform(delete("/api/stocks/{ticker}", ticker))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Stock with ticker " + ticker + " not found"));
     }

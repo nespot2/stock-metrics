@@ -2,6 +2,7 @@ package com.stockmetrics.bootstrap.api.stock.docs;
 
 import com.stockmetrics.adapter.web.exception.GlobalExceptionHandler;
 import com.stockmetrics.adapter.web.stock.StockController;
+import com.stockmetrics.application.provided.stock.StockDeletionUseCase;
 import com.stockmetrics.application.provided.stock.StockModificationUseCase;
 import com.stockmetrics.application.provided.stock.StockRegistrationUseCase;
 import com.stockmetrics.application.stock.RegisterStockCommand;
@@ -30,6 +31,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,6 +49,9 @@ class StockApiDocumentationTest {
 
     @MockitoBean
     private StockModificationUseCase stockModificationUseCase;
+
+    @MockitoBean
+    private StockDeletionUseCase stockDeletionUseCase;
 
     @Test
     void documentStockRegistration() throws Exception {
@@ -114,6 +119,23 @@ class StockApiDocumentationTest {
                                 fieldWithPath("ticker").description("주식 티커 심볼").attributes(key("required").value("Yes")),
                                 fieldWithPath("name").description("수정된 회사명").attributes(key("required").value("Yes")),
                                 fieldWithPath("exchange").description("거래소").attributes(key("required").value("Yes"))
+                        )
+                ));
+    }
+
+    @Test
+    void documentStockDeletion() throws Exception {
+        // given
+        String ticker = "AAPL";
+
+        // when & then
+        mockMvc.perform(delete("/api/stocks/{ticker}", ticker))
+                .andExpect(status().isOk())
+                .andDo(document("stock-deletion",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("ticker").description("삭제할 주식의 티커 심볼")
                         )
                 ));
     }

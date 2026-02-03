@@ -52,4 +52,17 @@ class StockTest {
         assertThat(stock.getName()).isEqualTo(newName);
     }
 
+    @Test
+    @DisplayName("Should delete a stock by changing status to DELETED")
+    void shouldDeleteStock() {
+        // given
+        Stock stock = StockFixture.createStock();
+
+        // when
+        stock.delete();
+
+        // then
+        assertThat(stock.getStatus()).isEqualTo(StockStatus.DELETED);
+    }
+
 }

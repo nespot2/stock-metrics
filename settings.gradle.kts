@@ -5,6 +5,7 @@ include(
     "bootstrap:api",
     "adapter:persistence",
     "adapter:web",
+    "adapter:jwt",
     "application",
     "domain"
 )

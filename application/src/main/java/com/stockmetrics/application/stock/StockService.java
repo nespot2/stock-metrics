@@ -1,5 +1,6 @@
 package com.stockmetrics.application.stock;
 
+import com.stockmetrics.application.provided.stock.StockDeletionUseCase;
 import com.stockmetrics.application.provided.stock.StockModificationUseCase;
 import com.stockmetrics.application.provided.stock.StockRegistrationUseCase;
 import com.stockmetrics.application.required.stock.StockRepository;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class StockService implements StockRegistrationUseCase, StockModificationUseCase {
+public class StockService implements StockRegistrationUseCase, StockModificationUseCase, StockDeletionUseCase {
 
     private final StockRepository stockRepository;
 
@@ -39,5 +40,12 @@ public class StockService implements StockRegistrationUseCase, StockModification
                 .orElseThrow(() -> new NoSuchElementException("Stock with ticker " + command.ticker() + " not found"));
         stock.modifyName(command.newName());
         return stock;
+    }
+
+    @Override
+    public void delete(DeleteStockCommand command) {
+        Stock stock = stockRepository.findByTicker(command.ticker())
+                .orElseThrow(() -> new NoSuchElementException("Stock with ticker " + command.ticker() + " not found"));
+        stock.delete();
     }
 }

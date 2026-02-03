@@ -52,3 +52,23 @@
 - [x] Test: create a test code for spring restdoc for stock modification endpoint
 - [x] Test: write an asciidoc for stock modification endpoint
 
+## Feature 3: Stock Deletion(주식 삭제)
+
+### 3.1 delete a stock in domain layer
+
+- [x] Test: delete a stock(change the status of stock to DELETED)
+
+### 3.2 delete a stock in application layer
+
+- [x] Test: delete a stock(change the status of stock to DELETED)
+- [x] Test: reject if stock does not exist
+
+### 3.3 delete a stock in controller in adapter layer
+
+- [x] Test: should return 200 OK on successful stock deletion
+- [x] Test: should return 404 Not Found if stock does not exist
+
+### 3.4 create a spring restdoc for api documentation in bootstrap layer
+
+- [x] Test: create a test code for spring restdoc for stock deletion endpoint
+- [x] Test: write an asciidoc for stock deletion endpoint

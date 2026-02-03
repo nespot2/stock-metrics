@@ -28,11 +28,16 @@ public class Stock extends AbstractEntity {
     @Column(nullable = false)
     private Exchange exchange;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StockStatus status;
+
     private Stock(String ticker, String name, Exchange exchange) {
         validateTicker(ticker);
         this.ticker = ticker;
         this.name = name;
         this.exchange = exchange;
+        this.status = StockStatus.ACTIVE;
     }
 
     public static Stock create(CreateStockRequest request) {
@@ -47,6 +52,10 @@ public class Stock extends AbstractEntity {
 
     public void modifyName(String name) {
         this.name = name;
+    }
+
+    public void delete() {
+        this.status = StockStatus.DELETED;
     }
 
 }

@@ -71,3 +71,26 @@ include::{snippets}/stock-modification/response-fields.adoc[]
 ===== cURL
 
 include::{snippets}/stock-modification/curl-request.adoc[]
+
+[[stock-deletion]]
+=== 주식 삭제
+
+등록된 주식을 삭제 처리합니다. (상태를 DELETED로 변경)
+
+==== HTTP Request
+
+include::{snippets}/stock-deletion/http-request.adoc[]
+
+==== Path Parameters
+
+include::{snippets}/stock-deletion/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/stock-deletion/http-response.adoc[]
+
+==== Example
+
+===== cURL
+
+include::{snippets}/stock-deletion/curl-request.adoc[]

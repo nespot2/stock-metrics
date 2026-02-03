@@ -124,4 +124,36 @@ class StockServiceTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining("not found");
     }
+
+    @Test
+    @DisplayName("Should delete a stock by changing its status to DELETED")
+    void shouldDeleteStock() {
+        // given
+        String ticker = "AAPL";
+        Stock existingStock = Stock.create(new com.stockmetrics.domain.stock.CreateStockRequest(ticker, "Apple Inc.", Exchange.NASDAQ));
+        given(stockRepository.findByTicker(ticker)).willReturn(Optional.of(existingStock));
+
+        DeleteStockCommand command = new DeleteStockCommand(ticker);
+
+        // when
+        stockService.delete(command);
+
+        // then
+        assertThat(existingStock.getStatus()).isEqualTo(com.stockmetrics.domain.stock.StockStatus.DELETED);
+    }
+
+    @Test
+    @DisplayName("Should reject delete if stock does not exist")
+    void shouldRejectDeleteIfStockDoesNotExist() {
+        // given
+        String ticker = "AAPL";
+        given(stockRepository.findByTicker(ticker)).willReturn(Optional.empty());
+
+        DeleteStockCommand command = new DeleteStockCommand(ticker);
+
+        // when & then
+        assertThatThrownBy(() -> stockService.delete(command))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("not found");
+    }
 }
