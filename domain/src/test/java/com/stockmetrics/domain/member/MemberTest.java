@@ -37,4 +37,17 @@ class MemberTest {
                 .hasMessageContaining("email");
     }
 
+    @Test
+    @DisplayName("Should modify a name in Member entity")
+    void shouldModifyName() {
+        // given
+        Member member = MemberFixture.createMember();
+
+        // when
+        member.modifyName("New Name");
+
+        // then
+        assertThat(member.getName()).isEqualTo("New Name");
+    }
+
 }

@@ -35,7 +35,7 @@
 
 ### 2.1 modify name in domain layer
 
-- [ ] Test: modify a name in Member entity (You should use MemberFixture to create a member)
+- [x] Test: modify a name in Member entity (You should use MemberFixture to create a member)
 
 ### 2.2 modify name in application layer
 

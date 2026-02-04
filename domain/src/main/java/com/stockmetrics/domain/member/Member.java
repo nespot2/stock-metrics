@@ -38,4 +38,8 @@ public class Member extends AbstractEntity {
         }
     }
 
+    public void modifyName(String name) {
+        this.name = name;
+    }
+
 }
