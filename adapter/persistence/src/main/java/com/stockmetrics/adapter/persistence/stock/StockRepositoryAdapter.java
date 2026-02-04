@@ -24,4 +24,6 @@ public class StockRepositoryAdapter implements StockRepository {
     public Optional<Stock> findByTicker(String ticker) {
         return stockJpaRepository.findByTicker(ticker);
     }
+
+
 }

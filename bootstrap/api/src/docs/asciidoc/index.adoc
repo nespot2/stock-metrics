@@ -11,6 +11,36 @@
 
 Stock Metrics API는 주식 정보를 관리하고 주요 밸류에이션 지표를 조회하는 서비스입니다.
 
+[[member-api]]
+== Member API
+
+[[member-registration]]
+=== 회원 등록
+
+새로운 회원을 등록합니다.
+
+==== HTTP Request
+
+include::{snippets}/member-registration/http-request.adoc[]
+
+==== Request Fields
+
+include::{snippets}/member-registration/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member-registration/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/member-registration/response-fields.adoc[]
+
+==== Example
+
+===== cURL
+
+include::{snippets}/member-registration/curl-request.adoc[]
+
 [[stock-api]]
 == Stock API
 

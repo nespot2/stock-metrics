@@ -12,23 +12,23 @@
 ### 1.1 Member Entity
 
 - [x] Test: Should create a Member with email and name using request class
-- [ ] Test: Should reject email not following format (standard email pattern)
+- [x] Test: Should reject email not following format (standard email pattern)
 
 ### 1.2 register a member in application layer
 
-- [ ] Test: reject invalid email format
-- [ ] Test: reject if member already exists
-- [ ] Test: register a member
+- [x] Test: reject invalid email format
+- [x] Test: reject if member already exists
+- [x] Test: register a member
 
 ### 1.3 create a controller in adapter layer and write a test code in bootstrap layer
 
-- [ ] Test: should return 201 Created on successful member registration. response is a MemberResponse
-- [ ] Test: should return 400 Bad Request on invalid email format
+- [x] Test: should return 201 Created on successful member registration. response is a MemberResponse
+- [x] Test: should return 400 Bad Request on invalid email format
 
 ### 1.4 create a spring restdoc for api documentation in bootstrap layer
 
-- [ ] Test: create a test code for spring restdoc for member registration endpoint
-- [ ] Test: write an asciidoc for member registration endpoint
+- [x] Test: create a test code for spring restdoc for member registration endpoint
+- [x] Test: write an asciidoc for member registration endpoint
 
 
 ## Feature 2: Member Modification(회원 수정)
