@@ -5,7 +5,21 @@ Users can search by company name or stock code (ticker) to retrieve essential fi
 
 ## Project Features & Architecture
 
-- This project is built using Spring Boot 4.x and follows a modular, layered architecture designed to enforce clear separation of concerns, testability, and long-term maintainability.
+- This project is built using Spring Boot 4.0.2 and follows a modular, layered architecture designed to enforce clear separation of concerns, testability, and long-term maintainability.
+
+### Technical Stack
+
+- **Java**: 21
+- **Spring Boot**: 4.0.2
+- **Spring Dependency Management**: 1.1.7
+- **Key Libraries**:
+  - Spring Boot Starter
+  - Spring Boot Actuator
+  - Micrometer Tracing with OpenTelemetry
+  - OpenTelemetry Exporter (Zipkin)
+  - Lombok
+  - JUnit 5 (Jupiter)
+
 - The system is organized into four primary modules:
   - bootstrap
   - adapter
