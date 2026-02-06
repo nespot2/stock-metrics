@@ -1,4 +1,4 @@
 package com.stockmetrics.domain.member;
 
-public record CreateMemberRequest(String email, String name) {
+public record CreateMemberRequest(String email, String name, SnsType snsType, String password) {
 }

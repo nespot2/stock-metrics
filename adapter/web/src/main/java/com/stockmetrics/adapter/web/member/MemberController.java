@@ -23,7 +23,7 @@ public class MemberController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MemberResponse register(@RequestBody MemberRegistrationRequest request) {
-        RegisterMemberCommand command = new RegisterMemberCommand(request.email(), request.name());
+        RegisterMemberCommand command = new RegisterMemberCommand(request.email(), request.name(), request.snsType(), request.password());
         Member member = memberRegistrationUseCase.register(command);
         return MemberResponse.from(member);
     }

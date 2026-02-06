@@ -17,7 +17,7 @@ public class MemberService implements MemberRegistrationUseCase {
 
     @Override
     public Member register(RegisterMemberCommand command) {
-        CreateMemberRequest request = new CreateMemberRequest(command.email(), command.name());
+        CreateMemberRequest request = new CreateMemberRequest(command.email(), command.name(), command.snsType(), command.password());
         Member member = Member.create(request);
         
         if (memberRepository.findByEmail(command.email()).isPresent()) {

@@ -6,6 +6,7 @@ import com.stockmetrics.application.member.RegisterMemberCommand;
 import com.stockmetrics.application.provided.member.MemberRegistrationUseCase;
 import com.stockmetrics.domain.member.CreateMemberRequest;
 import com.stockmetrics.domain.member.Member;
+import com.stockmetrics.domain.member.SnsType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.restdocs.test.autoconfigure.AutoConfigureRestDocs;
@@ -45,12 +46,14 @@ class MemberApiDocumentationTest {
         String requestBody = """
                 {
                     "email": "john@example.com",
-                    "name": "John Doe"
+                    "name": "John Doe",
+                    "snsType": "EMAIL",
+                    "password": "password123"
                 }
                 """;
 
         given(memberRegistrationUseCase.register(any(RegisterMemberCommand.class)))
-                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe")));
+                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123")));
 
         // when & then
         mockMvc.perform(post("/api/members")
@@ -62,7 +65,9 @@ class MemberApiDocumentationTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("email").description("회원 이메일").attributes(key("required").value("Yes")),
-                                fieldWithPath("name").description("회원 이름").attributes(key("required").value("Yes"))
+                                fieldWithPath("name").description("회원 이름").attributes(key("required").value("Yes")),
+                                fieldWithPath("snsType").description("SNS 타입 (EMAIL, NAVER)").attributes(key("required").value("Yes")),
+                                fieldWithPath("password").description("비밀번호 (EMAIL 타입일 때 필수)").attributes(key("required").value("Conditional"))
                         ),
                         responseFields(
                                 fieldWithPath("email").description("회원 이메일").attributes(key("required").value("Yes")),

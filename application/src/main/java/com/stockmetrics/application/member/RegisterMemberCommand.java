@@ -1,4 +1,6 @@
 package com.stockmetrics.application.member;
 
-public record RegisterMemberCommand(String email, String name) {
+import com.stockmetrics.domain.member.SnsType;
+
+public record RegisterMemberCommand(String email, String name, SnsType snsType, String password) {
 }

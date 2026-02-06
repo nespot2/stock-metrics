@@ -3,6 +3,7 @@ package com.stockmetrics.application.member;
 import com.stockmetrics.application.required.member.MemberRepository;
 import com.stockmetrics.domain.member.CreateMemberRequest;
 import com.stockmetrics.domain.member.Member;
+import com.stockmetrics.domain.member.SnsType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ class MemberServiceTest {
     @DisplayName("Should reject invalid email format")
     void shouldRejectInvalidEmailFormat() {
         // given
-        RegisterMemberCommand command = new RegisterMemberCommand("invalid-email", "John Doe");
+        RegisterMemberCommand command = new RegisterMemberCommand("invalid-email", "John Doe", SnsType.EMAIL, "password123");
 
         // when & then
         assertThatThrownBy(() -> memberService.register(command))
@@ -51,8 +52,8 @@ class MemberServiceTest {
     void shouldRejectIfMemberAlreadyExists() {
         // given
         String email = "john@example.com";
-        RegisterMemberCommand command = new RegisterMemberCommand(email, "John Doe");
-        Member existingMember = Member.create(new CreateMemberRequest(email, "Existing User"));
+        RegisterMemberCommand command = new RegisterMemberCommand(email, "John Doe", SnsType.EMAIL, "password123");
+        Member existingMember = Member.create(new CreateMemberRequest(email, "Existing User", SnsType.EMAIL, "password123"));
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(existingMember));
 
         // when & then
@@ -69,7 +70,7 @@ class MemberServiceTest {
         // given
         String email = "john@example.com";
         String name = "John Doe";
-        RegisterMemberCommand command = new RegisterMemberCommand(email, name);
+        RegisterMemberCommand command = new RegisterMemberCommand(email, name, SnsType.EMAIL, "password123");
 
         given(memberRepository.findByEmail(email)).willReturn(Optional.empty());
         given(memberRepository.save(any(Member.class))).willAnswer(invocation -> invocation.getArgument(0));

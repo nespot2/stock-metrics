@@ -6,6 +6,7 @@ import com.stockmetrics.application.member.RegisterMemberCommand;
 import com.stockmetrics.application.provided.member.MemberRegistrationUseCase;
 import com.stockmetrics.domain.member.CreateMemberRequest;
 import com.stockmetrics.domain.member.Member;
+import com.stockmetrics.domain.member.SnsType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -37,12 +38,14 @@ class MemberControllerTest {
         String requestBody = """
                 {
                     "email": "john@example.com",
-                    "name": "John Doe"
+                    "name": "John Doe",
+                    "snsType": "EMAIL",
+                    "password": "password123"
                 }
                 """;
 
         given(memberRegistrationUseCase.register(any(RegisterMemberCommand.class)))
-                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe")));
+                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123")));
 
         // when & then
         mockMvc.perform(post("/api/members")
@@ -59,7 +62,9 @@ class MemberControllerTest {
         String requestBody = """
                 {
                     "email": "invalid-email",
-                    "name": "John Doe"
+                    "name": "John Doe",
+                    "snsType": "EMAIL",
+                    "password": "password123"
                 }
                 """;
 
