@@ -3,10 +3,13 @@ package com.stockmetrics.adapter.web.member;
 import com.stockmetrics.adapter.web.member.dto.MemberRegistrationRequest;
 import com.stockmetrics.adapter.web.member.dto.MemberResponse;
 import com.stockmetrics.application.member.RegisterMemberCommand;
+import com.stockmetrics.application.provided.member.MemberDeleteUseCase;
 import com.stockmetrics.application.provided.member.MemberRegistrationUseCase;
 import com.stockmetrics.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberRegistrationUseCase memberRegistrationUseCase;
+    private final MemberDeleteUseCase memberDeleteUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,5 +30,11 @@ public class MemberController {
         RegisterMemberCommand command = new RegisterMemberCommand(request.email(), request.name(), request.snsType(), request.password());
         Member member = memberRegistrationUseCase.register(command);
         return MemberResponse.from(member);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Long id) {
+        memberDeleteUseCase.delete(id);
     }
 }

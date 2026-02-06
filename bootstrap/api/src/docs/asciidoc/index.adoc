@@ -41,6 +41,29 @@ include::{snippets}/member-registration/response-fields.adoc[]
 
 include::{snippets}/member-registration/curl-request.adoc[]
 
+[[member-deletion]]
+=== 회원 삭제
+
+회원을 삭제 처리합니다. (상태를 DELETED로 변경)
+
+==== HTTP Request
+
+include::{snippets}/member-deletion/http-request.adoc[]
+
+==== Path Parameters
+
+include::{snippets}/member-deletion/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/member-deletion/http-response.adoc[]
+
+==== Example
+
+===== cURL
+
+include::{snippets}/member-deletion/curl-request.adoc[]
+
 [[stock-api]]
 == Stock API
 

@@ -24,6 +24,18 @@ class MemberTest {
         assertThat(member.getName()).isEqualTo("John Doe");
     }
 
+    @Test
+    @DisplayName("Should reject blank name on member creation")
+    void shouldRejectBlankNameOnMemberCreation() {
+        // given
+        CreateMemberRequest request = new CreateMemberRequest("test@example.com", " ", SnsType.EMAIL, "password123");
+
+        // when & then
+        assertThatThrownBy(() -> Member.create(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("name");
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"invalid", "test@", "@example.com", "test @example.com", "test@.com", ""})
     @DisplayName("Should reject email not following format")
@@ -48,6 +60,19 @@ class MemberTest {
 
         // then
         assertThat(member.getName()).isEqualTo("New Name");
+    }
+
+    @Test
+    @DisplayName("Should delete a member by changing status to DELETED")
+    void shouldDeleteMember() {
+        // given
+        Member member = MemberFixture.createMember();
+
+        // when
+        member.delete();
+
+        // then
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DELETED);
     }
 
     @Test
@@ -104,6 +129,18 @@ class MemberTest {
         assertThat(member.getName()).isEqualTo("John Doe");
         assertThat(member.getSnsType()).isEqualTo(SnsType.NAVER);
         assertThat(member.getPassword()).isNull();
+    }
+
+    @Test
+    @DisplayName("Should throw MemberNotFoundException when deleting already deleted member")
+    void shouldThrowExceptionWhenDeletingDeletedMember() {
+        // given
+        Member member = MemberFixture.createMember();
+        member.delete();
+
+        // when & then
+        assertThatThrownBy(() -> member.delete())
+                .isInstanceOf(MemberNotFoundException.class);
     }
 
 }

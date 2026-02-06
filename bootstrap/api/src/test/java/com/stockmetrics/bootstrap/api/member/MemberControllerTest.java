@@ -3,9 +3,11 @@ package com.stockmetrics.bootstrap.api.member;
 import com.stockmetrics.adapter.web.exception.GlobalExceptionHandler;
 import com.stockmetrics.adapter.web.member.MemberController;
 import com.stockmetrics.application.member.RegisterMemberCommand;
+import com.stockmetrics.application.provided.member.MemberDeleteUseCase;
 import com.stockmetrics.application.provided.member.MemberRegistrationUseCase;
 import com.stockmetrics.domain.member.CreateMemberRequest;
 import com.stockmetrics.domain.member.Member;
+import com.stockmetrics.domain.member.MemberNotFoundException;
 import com.stockmetrics.domain.member.SnsType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +35,9 @@ class MemberControllerTest {
 
     @MockitoBean
     private MemberRegistrationUseCase memberRegistrationUseCase;
+
+    @MockitoBean
+    private MemberDeleteUseCase memberDeleteUseCase;
 
     @Test
     void shouldReturn201CreatedOnSuccessfulMemberRegistration() throws Exception {
@@ -77,5 +84,27 @@ class MemberControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Invalid email format"));
+    }
+
+    @Test
+    void shouldReturn200WhenDeletingMember() throws Exception {
+        // given
+        Long memberId = 1L;
+        willDoNothing().given(memberDeleteUseCase).delete(memberId);
+
+        // when & then
+        mockMvc.perform(delete("/api/members/{id}", memberId))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturn400WhenMemberNotFound() throws Exception {
+        // given
+        Long memberId = 1L;
+        willThrow(new MemberNotFoundException()).given(memberDeleteUseCase).delete(memberId);
+
+        // when & then
+        mockMvc.perform(delete("/api/members/{id}", memberId))
+                .andExpect(status().isBadRequest());
     }
 }

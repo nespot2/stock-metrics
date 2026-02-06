@@ -6,6 +6,7 @@ include(
     "adapter:persistence",
     "adapter:web",
     "adapter:jwt",
+    "adapter:security",
     "application",
     "domain"
 )
