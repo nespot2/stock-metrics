@@ -55,13 +55,13 @@ class MemberApiDocumentationTest {
                 {
                     "email": "john@example.com",
                     "name": "John Doe",
-                    "snsType": "EMAIL",
-                    "password": "password123"
+                    "snsType": "NAVER",
+                    "password": null
                 }
                 """;
 
         given(memberRegistrationUseCase.register(any(RegisterMemberCommand.class)))
-                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123")));
+                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.NAVER, null)));
 
         // when & then
         mockMvc.perform(post("/api/members")
@@ -74,8 +74,8 @@ class MemberApiDocumentationTest {
                         requestFields(
                                 fieldWithPath("email").description("회원 이메일").attributes(key("required").value("Yes")),
                                 fieldWithPath("name").description("회원 이름").attributes(key("required").value("Yes")),
-                                fieldWithPath("snsType").description("SNS 타입 (EMAIL, NAVER)").attributes(key("required").value("Yes")),
-                                fieldWithPath("password").description("비밀번호 (EMAIL 타입일 때 필수)").attributes(key("required").value("Conditional"))
+                                fieldWithPath("snsType").description("SNS 타입 (KAKAO, NAVER)").attributes(key("required").value("Yes")),
+                                fieldWithPath("password").description("비밀번호 (선택)").attributes(key("required").value("No"))
                         ),
                         responseFields(
                                 fieldWithPath("email").description("회원 이메일").attributes(key("required").value("Yes")),

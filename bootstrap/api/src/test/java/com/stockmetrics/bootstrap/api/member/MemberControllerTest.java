@@ -46,13 +46,13 @@ class MemberControllerTest {
                 {
                     "email": "john@example.com",
                     "name": "John Doe",
-                    "snsType": "EMAIL",
-                    "password": "password123"
+                    "snsType": "NAVER",
+                    "password": null
                 }
                 """;
 
         given(memberRegistrationUseCase.register(any(RegisterMemberCommand.class)))
-                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123")));
+                .willReturn(Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.NAVER, null)));
 
         // when & then
         mockMvc.perform(post("/api/members")
@@ -70,8 +70,8 @@ class MemberControllerTest {
                 {
                     "email": "invalid-email",
                     "name": "John Doe",
-                    "snsType": "EMAIL",
-                    "password": "password123"
+                    "snsType": "NAVER",
+                    "password": null
                 }
                 """;
 

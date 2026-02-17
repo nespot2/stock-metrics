@@ -40,7 +40,7 @@ class MemberServiceTest {
     @DisplayName("Should reject invalid email format")
     void shouldRejectInvalidEmailFormat() {
         // given
-        RegisterMemberCommand command = new RegisterMemberCommand("invalid-email", "John Doe", SnsType.EMAIL, "password123");
+        RegisterMemberCommand command = new RegisterMemberCommand("invalid-email", "John Doe", SnsType.NAVER, null);
 
         // when & then
         assertThatThrownBy(() -> memberService.register(command))
@@ -55,8 +55,8 @@ class MemberServiceTest {
     void shouldRejectIfMemberAlreadyExists() {
         // given
         String email = "john@example.com";
-        RegisterMemberCommand command = new RegisterMemberCommand(email, "John Doe", SnsType.EMAIL, "password123");
-        Member existingMember = Member.create(new CreateMemberRequest(email, "Existing User", SnsType.EMAIL, "password123"));
+        RegisterMemberCommand command = new RegisterMemberCommand(email, "John Doe", SnsType.NAVER, null);
+        Member existingMember = Member.create(new CreateMemberRequest(email, "Existing User", SnsType.NAVER, null));
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(existingMember));
 
         // when & then
@@ -73,7 +73,7 @@ class MemberServiceTest {
         // given
         String email = "john@example.com";
         String name = "John Doe";
-        RegisterMemberCommand command = new RegisterMemberCommand(email, name, SnsType.EMAIL, "password123");
+        RegisterMemberCommand command = new RegisterMemberCommand(email, name, SnsType.NAVER, null);
 
         given(memberRepository.findByEmail(email)).willReturn(Optional.empty());
         given(memberRepository.save(any(Member.class))).willAnswer(invocation -> invocation.getArgument(0));
@@ -94,7 +94,7 @@ class MemberServiceTest {
         String email = "john@example.com";
         String originalName = "John Doe";
         String newName = "John Smith";
-        Member existingMember = Member.create(new CreateMemberRequest(email, originalName, SnsType.EMAIL, "password123"));
+        Member existingMember = Member.create(new CreateMemberRequest(email, originalName, SnsType.NAVER, null));
         given(memberRepository.findByEmail(email)).willReturn(Optional.of(existingMember));
 
         UpdateMemberNameCommand command = new UpdateMemberNameCommand(email, newName);
@@ -128,7 +128,7 @@ class MemberServiceTest {
     void shouldDeleteMember() {
         // given
         Long memberId = 1L;
-        Member member = Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123"));
+        Member member = Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.NAVER, null));
         given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 
         // when
@@ -155,7 +155,7 @@ class MemberServiceTest {
     void shouldThrowMemberNotFoundExceptionWhenMemberStatusIsDeleted() {
         // given
         Long memberId = 1L;
-        Member member = Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.EMAIL, "password123"));
+        Member member = Member.create(new CreateMemberRequest("john@example.com", "John Doe", SnsType.NAVER, null));
         member.delete(); // Member status is now DELETED
         given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
 

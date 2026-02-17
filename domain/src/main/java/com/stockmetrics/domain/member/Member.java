@@ -37,7 +37,6 @@ public class Member extends AbstractEntity {
     private Member(String email, String name, SnsType snsType, String password) {
         validateEmail(email);
         validateName(name);
-        validatePassword(snsType, password);
         this.email = email;
         this.name = name;
         this.snsType = snsType;
@@ -58,12 +57,6 @@ public class Member extends AbstractEntity {
     private static void validateName(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name is required");
-        }
-    }
-
-    private static void validatePassword(SnsType snsType, String password) {
-        if (snsType == SnsType.EMAIL && (password == null || password.isBlank())) {
-            throw new IllegalArgumentException("Password is required for EMAIL type member");
         }
     }
 
